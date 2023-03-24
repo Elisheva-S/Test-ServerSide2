@@ -1,0 +1,50 @@
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+alter PROCEDURE CreateTbl2
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT SUBSTRING(QuantityPerUnit,1,CHARINDEX(' ',QuantityPerUnit)) as num,RIGHT(QuantityPerUnit, (CHARINDEX(' ',REVERSE(QuantityPerUnit),0)))as kindOfPackage into #tabl1 
+	from [Products]
+
+	--select * from #tabl1
+
+	delete from #tabl1
+	where num='1k'
+	
+	--select * from #tabl1
+
+	
+	 
+	select sum(CAST((num) as int)) as num ,kindOfPackage as kindOfPackage into #tabl2
+	from #tabl1
+	group by kindOfPackage
+
+	select * from #tabl2
+
+	exec CreateTbl2
+
+END
+GO
